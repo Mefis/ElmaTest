@@ -1,0 +1,5 @@
+12 Sum 6 = 18
+12 Divide 6 = 2
+12 Multiply 6 = 72
+12 Remainder 6 = 0
+12 Subtract 6 = 6
