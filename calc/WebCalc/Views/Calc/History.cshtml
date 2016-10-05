@@ -1,0 +1,16 @@
+﻿@model IEnumerable<String>
+@{
+    ViewBag.Title = "History";
+}
+
+<h2>History</h2>
+
+<table>
+    <tr><th>Operation</th></tr>
+    @foreach (var oper in Model)
+    {
+        <tr>
+            <td>@(oper)</td>
+        </tr>
+    }
+</table>
