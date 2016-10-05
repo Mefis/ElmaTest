@@ -20,6 +20,9 @@ namespace WebCalc.Models
         public int Y { get; set; }
 
         [Display(Name = "Результат")]
-        public double? Result { get; set; }
+        public double Result { get; set; }
+
+        [Required]
+        public String Operation { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace Calculator
     public partial class Form1 : Form
     {
         private Helper Calc { get; set; }
-
+        
         private HistoryTxt HistoryAction { get; set; } 
 
         private string ActiveOperation { get; set; }
