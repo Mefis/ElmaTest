@@ -57,9 +57,7 @@ namespace WebCalc.Controllers
                 var result = method.Invoke(Calc, new object[] { model.X, model.Y });
                 model.Result = Double.Parse(result.ToString());
 
-                var oper = string.Format("{0} {1} {2} = {3}", model.X, ActiveOperation, model.Y, model.Result);
-
-                AddOperation(oper);
+                AddOperation(model.X,model.Y,model.Result);
             }
 
             ViewData.Model = model;
@@ -74,10 +72,13 @@ namespace WebCalc.Controllers
 
         #region Работа с БД
 
-        private void AddOperation(string oper)
+        private void AddOperation(int x, int y, double result)
         {
             var history = new HistoryDomain();
 
+            history.X = x;
+            history.Y = y;
+            history.Result = result;
             history.CreationDate = DateTime.Now;
             history.Operation = ActiveOperation;
 

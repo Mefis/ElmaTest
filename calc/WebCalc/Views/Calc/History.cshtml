@@ -4,16 +4,19 @@
 }
 
 <h2>History</h2>
+<table>
+    <tr><th>Operations</th></tr>
+</table>
 
 <table>
-    <tr><th>Operation</th></tr>
     @foreach (var oper in Model)
     {
         <tr>
-            <td>@(oper.X)</td>
-            <td>@(oper.Y)</td>
-            <td>@(oper.Result)</td>
-            <td>@(oper.Operation)</td>
+            <td width="12%">@(oper.X)</td>
+            <td width="20%">@(oper.Operation)</td>
+            <td width="12%">@(oper.Y)</td>
+            <td width="12%"> = </td>
+            <td width="12%">@(oper.Result)</td>
             <td>@(oper.CreationDate)</td>
         </tr>
     }

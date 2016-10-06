@@ -30,7 +30,7 @@ namespace Domain.Managers
             {
                 var criteria = session.CreateCriteria(typeof(HistoryDomain));
 
-                //criteria.Add(Restrictions.Ge("X",5));
+                //criteria.Add(Restrictions.Like("Operation","Sum%"));
 
                 var docs = criteria.List<HistoryDomain>();
 
