@@ -1,4 +1,6 @@
 ﻿using Calc;
+using Domain.Managers;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,6 +16,13 @@ namespace WebCalc.Controllers
 {
     public class CalcController : Controller
     {
+        private IHistoryManager Manager { get; set; }
+
+        public CalcController()
+        {
+            Manager = new HistoryManager();
+        }
+
         private Helper Calc { get; set; }
 
         private string ActiveOperation { get; set; }
@@ -67,56 +76,17 @@ namespace WebCalc.Controllers
 
         private void AddOperation(string oper)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ElmaCon"].ConnectionString;
+            var history = new HistoryDomain();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                var queryString = string.Format("INSERT INTO [dbo].[History] ([Operation]) VALUES (N'{0}')", oper);
+            history.CreationDate = DateTime.Now;
+            history.Operation = ActiveOperation;
 
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Connection.Open();
-                command.ExecuteNonQuery();
-            }
+            Manager.Add(history);
         }
 
-        private void DeleteHistory()
+        private IEnumerable<HistoryDomain> GetOperation()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ElmaCon"].ConnectionString;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                var queryString = "DELETE FROM [dbo].[History]";
-
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Connection.Open();
-                command.ExecuteNonQuery();
-            }
-        }
-
-        private IEnumerable<string> GetOperation()
-        {
-            var connectionString = ConfigurationManager.ConnectionStrings["ElmaCon"].ConnectionString;
-
-            var result = new List<string>();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                var queryString = "SELECT [Operation] FROM [dbo].[History]";
-
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Connection.Open();
-
-                var reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        result.Add(reader.GetString(0));
-                    }
-                }
-                reader.Close();
-            }
-            return result;
+            return Manager.List();
         }
 
         #endregion

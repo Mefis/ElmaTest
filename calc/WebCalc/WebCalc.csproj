@@ -290,6 +290,10 @@
       <Project>{a72b03f3-e067-44e9-9bea-729ae436e3a2}</Project>
       <Name>calc</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{a1d07e24-a120-4ad1-8762-303572a53f83}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Domain"
+                   namespace="Domain.Models">
+
+  <class name="HistoryDomain">
+    <id name="Id">
+      <generator class="guid" />
+    </id>
+    <property name="X" />
+    <property name="Y" />
+    <property name="Result" />
+    <property name="Operation" />
+    <property name="CreationDate" />
+
+    <sql-insert xml:space="preserve">
+      EXEC dbo.addOper @X = ?, @Y = ?, @Result = ?, @Operation = ?
+    </sql-insert>
+
+  </class>
+
+</hibernate-mapping>

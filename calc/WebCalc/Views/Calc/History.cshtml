@@ -1,4 +1,4 @@
-﻿@model IEnumerable<String>
+﻿@model IEnumerable<Domain.Models.HistoryDomain>
 @{
     ViewBag.Title = "History";
 }
@@ -10,7 +10,11 @@
     @foreach (var oper in Model)
     {
         <tr>
-            <td>@(oper)</td>
+            <td>@(oper.X)</td>
+            <td>@(oper.Y)</td>
+            <td>@(oper.Result)</td>
+            <td>@(oper.Operation)</td>
+            <td>@(oper.CreationDate)</td>
         </tr>
     }
 </table>
