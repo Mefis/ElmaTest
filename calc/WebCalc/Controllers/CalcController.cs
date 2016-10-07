@@ -65,9 +65,9 @@ namespace WebCalc.Controllers
             return View();
         }
 
-        public ActionResult History()
+        public ActionResult History(string search = "")
         {
-            return View(GetOperation());
+            return View(Manager.List(search));
         }
 
         #region Работа с БД

@@ -12,21 +12,21 @@ namespace Domain.Models
         public virtual Guid Id { get; set; }
 
         [Required]
-        [Display(Name = "Первая переменная")]
+        [Display(Name = "First variable")]
         public virtual int X { get; set; }
 
         [Required]
-        [Display(Name = "Вторая переменная")]
+        [Display(Name = "Second variable")]
         public virtual int Y { get; set; }
 
-        [Display(Name = "Результат")]
+        [Display(Name = "Result")]
         public virtual double Result { get; set; }
 
-        [Display(Name = "Операция")]
+        [Display(Name = "Operation")]
         public virtual string Operation { get; set; }
 
         [DataType(DataType.Date)]
-        [Display(Name = "Дата создания")]
+        [Display(Name = "Creation Date")]
         public virtual DateTime CreationDate { get; set; }
     }
 }

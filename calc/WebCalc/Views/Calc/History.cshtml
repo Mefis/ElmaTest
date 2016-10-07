@@ -8,7 +8,35 @@
     <tr><th>Operations</th></tr>
 </table>
 
+@using (Html.BeginForm("History", "Calc"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.TextBox("Search")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Filter" class="btn btn-default" />
+            </div>
+
+        </div>
+    </div>
+}
+
 <table>
+    <tr>
+        <th>X</th>
+        <th>Operation</th>
+        <th>Y</th>
+        <th>Result</th>
+        <th> </th>
+        <th>Date</th>
+    </tr>
     @foreach (var oper in Model)
     {
         <tr>

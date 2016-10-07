@@ -12,7 +12,7 @@ namespace Domain.Managers
 {
     public class HistoryManager : IHistoryManager
     {
-        public void Add(HistoryDomain item)
+        public void Add(Models.HistoryDomain item)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -24,13 +24,32 @@ namespace Domain.Managers
             }
         }
 
-        public IEnumerable<HistoryDomain> List()
+        public IEnumerable<Models.HistoryDomain> List()
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
                 var criteria = session.CreateCriteria(typeof(HistoryDomain));
 
-                //criteria.Add(Restrictions.Like("Operation","Sum%"));
+                criteria.AddOrder(Order.Asc("CreationDate"));
+
+                var docs = criteria.List<HistoryDomain>();
+
+                return docs;
+            }
+        }
+
+        public IEnumerable<HistoryDomain> List(string search)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                var criteria = session.CreateCriteria(typeof(HistoryDomain));
+
+                if (!string.IsNullOrWhiteSpace(search))
+                {
+                    criteria.Add(Restrictions.Like("Operation", search, MatchMode.Anywhere));
+                }
+
+                criteria.AddOrder(Order.Asc("CreationDate"));
 
                 var docs = criteria.List<HistoryDomain>();
 

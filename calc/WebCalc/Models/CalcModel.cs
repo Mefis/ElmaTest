@@ -12,14 +12,14 @@ namespace WebCalc.Models
     public class CalcModel
     {
         [Required]
-        [Display(Name="Первая переменная")]
+        [Display(Name="First variable")]
         public int X { get; set; }
 
         [Required]
-        [Display(Name = "Вторая переменная")]
+        [Display(Name = "Second variable")]
         public int Y { get; set; }
 
-        [Display(Name = "Результат")]
+        [Display(Name = "Result")]
         public double Result { get; set; }
 
         [Required]

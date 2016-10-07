@@ -11,5 +11,6 @@ namespace Domain.Managers
     {
         void Add(HistoryDomain item);
         IEnumerable<HistoryDomain> List();
+        IEnumerable<HistoryDomain> List(string search);
     }
 }
