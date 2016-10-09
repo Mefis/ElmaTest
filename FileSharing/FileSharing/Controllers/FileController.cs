@@ -51,21 +51,25 @@ namespace FileSharing.Controllers
         }
 
         [HttpPost]
-        public void Create(FileCreateORMModel model)
+        public ActionResult Create(FileCreateORMModel model)
         {
-
             var author = UserManager.FindById(User.Identity.GetUserId());
             model.CreationDate = DateTime.Now;
             model.AuthorId = author.Id;
             model.AuthorName = author.Email;
             FileManager.Add(model);
-            RedirectToAction("Index");
+            return RedirectToAction("Created");
         }
-        
-        public void Delete(Guid fileId)
+
+        public ActionResult Delete(Guid fileId)
         {
             FileManager.Delete(fileId);
-            RedirectToAction("Index");
+            return View();
+        }
+
+        public ActionResult Created()
+        {
+            return View();
         }
     }
 }

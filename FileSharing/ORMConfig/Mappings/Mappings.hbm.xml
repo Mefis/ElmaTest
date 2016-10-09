@@ -25,7 +25,7 @@
     <property name="CreationDate" />
 
     <sql-insert xml:space="preserve">
-      EXEC dbo.addFile @FileName = ?, @AuthorId = ?, @AuthorName = ?,@Data = ?
+      EXEC dbo.addFile @FileName = ?, @AuthorId = ?, @AuthorName = ?, @Data = ?
     </sql-insert>
 
   </class>
