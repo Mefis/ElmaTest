@@ -4,6 +4,7 @@ using ORMConfig.Managers;
 using ORMConfig.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -58,18 +59,49 @@ namespace FileSharing.Controllers
             model.AuthorId = author.Id;
             model.AuthorName = author.Email;
             FileManager.Add(model);
-            return RedirectToAction("Created");
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(Guid fileId)
         {
             FileManager.Delete(fileId);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Upload()
+        {
             return View();
         }
 
-        public ActionResult Created()
+        [HttpPost]
+        public ActionResult Upload(FileCreateORMModel model)
         {
-            return View();
+
+            if (Request.Files.Count > 0)
+            {
+                var file = Request.Files[0];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    var author = UserManager.FindById(User.Identity.GetUserId());
+                    model.FileName = Path.GetFileName(file.FileName); ;
+                    model.CreationDate = DateTime.Now;
+                    model.AuthorId = author.Id;
+                    model.AuthorName = author.Email;
+
+                    byte[] fileData = null;
+                    using (var binaryReader = new BinaryReader(file.InputStream))
+                    {
+                        fileData = binaryReader.ReadBytes(file.ContentLength);
+                    }
+
+                    model.Data = fileData;
+                    FileManager.Add(model);
+                }
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
