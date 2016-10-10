@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.main-bar {
+    background: #480000;
+}
+
+.main-bg {
+    background: #FFE4E4;
+}

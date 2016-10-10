@@ -39,69 +39,100 @@ namespace FileSharing.Controllers
             }
         }
 
+        private bool Authorized()
+        {
+            return System.Web.HttpContext.Current != null && System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+        }
         // GET: File
-        public ActionResult Index()
+        public ActionResult Index(String sort, String dir)
         {
-            var enumerable = FileManager.List();
-            return View(enumerable);
-        }
-
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Create(FileCreateORMModel model)
-        {
-            var author = UserManager.FindById(User.Identity.GetUserId());
-            model.CreationDate = DateTime.Now;
-            model.AuthorId = author.Id;
-            model.AuthorName = author.Email;
-            FileManager.Add(model);
-            return RedirectToAction("Index");
+            if (Authorized())
+            {
+                return View(FileManager.List(sort,dir));
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         public ActionResult Delete(Guid fileId)
         {
-            FileManager.Delete(fileId);
-            return RedirectToAction("Index");
+            if (Authorized())
+            {
+                FileManager.Delete(fileId);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public ActionResult Download(Guid fileId)
+        {
+            if (Authorized())
+            {
+                var file = FileManager.GetFile(fileId);
+
+                FileContentResult result = new FileContentResult(file.Data, "application/octet-stream");
+                result.FileDownloadName = file.FileName;
+
+                return result;
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         [HttpGet]
         public ActionResult Upload()
         {
-            return View();
+            if (Authorized())
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         [HttpPost]
         public ActionResult Upload(FileCreateORMModel model)
         {
-
-            if (Request.Files.Count > 0)
+            if (Authorized())
             {
-                var file = Request.Files[0];
-
-                if (file != null && file.ContentLength > 0)
+                if (Request.Files.Count > 0)
                 {
-                    var author = UserManager.FindById(User.Identity.GetUserId());
-                    model.FileName = Path.GetFileName(file.FileName); ;
-                    model.CreationDate = DateTime.Now;
-                    model.AuthorId = author.Id;
-                    model.AuthorName = author.Email;
+                    var file = Request.Files[0];
 
-                    byte[] fileData = null;
-                    using (var binaryReader = new BinaryReader(file.InputStream))
+                    if (file != null && file.ContentLength > 0)
                     {
-                        fileData = binaryReader.ReadBytes(file.ContentLength);
+                        var author = UserManager.FindById(User.Identity.GetUserId());
+                        model.FileName = Path.GetFileName(file.FileName); ;
+                        model.CreationDate = DateTime.Now;
+                        model.AuthorId = author.Id;
+                        model.AuthorName = author.Email;
+
+                        byte[] fileData = null;
+                        using (var binaryReader = new BinaryReader(file.InputStream))
+                        {
+                            fileData = binaryReader.ReadBytes(file.ContentLength);
+                        }
+
+                        model.Data = fileData;
+                        FileManager.Add(model);
                     }
-
-                    model.Data = fileData;
-                    FileManager.Add(model);
                 }
-            }
+                return RedirectToAction("Index");
 
-            return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Domain.Managers
 {
     public class HistoryManager : IHistoryManager
     {
-        public void Add(Models.HistoryDomain item)
+        public void Add(HistoryDomain item)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -24,7 +24,7 @@ namespace Domain.Managers
             }
         }
 
-        public IEnumerable<Models.HistoryDomain> List()
+        public IEnumerable<HistoryDomain> List()
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {

@@ -1,25 +1,31 @@
 ﻿@model IList<ORMConfig.Models.FileViewORMModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "File Sharing";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2 style="margin-bottom: 30px;">File Sharing</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p style="margin-bottom: 20px;">
+    @Html.ActionLink("Upload New File", "Upload")
 </p>
 <table class="table">
     <tr>
         <th>
-            File name
+            File Name 
+            @Html.ActionLink("<", "Index", new { sort = "name", dir = "des" })
+            @Html.ActionLink(">", "Index", new { sort = "name", dir = "asc" })
         </th>
         <th>
-            Creation date
+            Creation Date 
+            @Html.ActionLink("<", "Index", new { sort = "date", dir = "des" })
+            @Html.ActionLink(">", "Index", new { sort = "date", dir = "asc" })
         </th>
         <th>
-            Author mail
+            Author Email 
+            @Html.ActionLink("<", "Index", new { sort = "mail", dir = "des" })
+            @Html.ActionLink(">", "Index", new { sort = "mail", dir = "asc" })
         </th>
         <th></th>
     </tr>
@@ -35,9 +41,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.AuthorName)
         </td>
-        <td>
-            @Html.ActionLink("Delete", "Delete", new { fileId = item.Id })
-        </td>
+        @if (item.AuthorName == User.Identity.Name)
+        {
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { fileId = item.Id }) |
+                @Html.ActionLink("Download", "Download", new { fileId = item.Id })
+            </td>
+        }
     </tr>
 }
 

@@ -23,7 +23,7 @@ namespace ORMConfig.Models
         [Display(Name = "Author Name")]
         public virtual string AuthorName { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         [Display(Name = "Creation Date")]
         public virtual DateTime CreationDate { get; set; }
     }

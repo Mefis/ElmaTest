@@ -4,12 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Upload</h2>
+<h2 style="margin-bottom: 30px;">Upload File</h2>
 
 @using (Html.BeginForm("Upload", "File", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <input type="file" name="file" />
-    <input type="submit" name="Submit" id="Submit" value="Upload" />
+    <input style="margin-bottom: 20px;" type="file" name="file" />
+    <input style="margin-bottom: 20px;" type="submit" name="Submit" id="Submit" value="Upload" />
 }
 
 <div>

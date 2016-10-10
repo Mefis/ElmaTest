@@ -10,7 +10,8 @@ namespace ORMConfig.Managers
     public interface IFileManager
     {
         void Add(FileCreateORMModel item);
-        IEnumerable<FileViewORMModel> List();
+        IEnumerable<FileViewORMModel> List(String sort, String dir);
+        FileCreateORMModel GetFile(Guid fileId);
         void Delete(Guid fileId);
     }
 }
